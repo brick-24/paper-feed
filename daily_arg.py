@@ -132,13 +132,7 @@ def download_xkcd():
 def print_xkcd(printer):
     comic = download_xkcd()
 
-    printer.set(
-        align="center",
-        bold=True,
-        width=2,
-        height=2,
-    )
-    printer.text("XKCD\n")
+    print_title(printer, "XKCD:")
 
     printer.set(
         align="center",
@@ -151,7 +145,7 @@ def print_xkcd(printer):
     printer.text(f"{comic['title']}\n\n")
 
     printer.image(str(comic["image_path"]))
-    printer.text("\n")
+    hr(printer)
 
 def get_weather(city):
     r = requests.get(
@@ -186,7 +180,7 @@ def print_quote(printer):
 def print_weather(printer, city):
     weather = get_weather(city)
 
-    print_title(printer, "WEATHER")
+    print_title(printer, "WEATHER:")
 
     hr(printer)
 
@@ -216,7 +210,7 @@ def calculate_returns(ticker):
 
 
 def print_markets(printer):
-    print_title(printer, "MARKETS")
+    print_title(printer, "MARKETS:")
 
     hr(printer)
 
