@@ -5,7 +5,7 @@ from function.comic import print_xkcd
 from function.markets import print_markets
 from function.quote import print_quote
 from function.weather import print_weather
-from printer import TerminalPrinter, create_printer
+from printer import TerminalPrinter, create_printer, hr
 
 
 def parse_args():
@@ -80,6 +80,8 @@ def main():
     if args.markets:
         print_markets(printer)
 
+    
+    hr(printer)
     printer.cut()
 
 

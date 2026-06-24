@@ -63,4 +63,4 @@ def print_markets(printer):
             f"{row['month']:+.1f}%\n"
         )
 
-    hr(printer)
+    # hr(printer)

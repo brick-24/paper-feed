@@ -15,4 +15,4 @@ def print_quote(printer):
     printer.text(f"{quote} \n")
     printer.set(align="center", bold = False, width = 1, height = 1)
     printer.text(f"- {author}\n")
-    hr(printer)
+    # hr(printer)

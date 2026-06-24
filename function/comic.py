@@ -56,4 +56,4 @@ def print_xkcd(printer):
     printer.text(f"{comic['title']}\n\n")
 
     printer.image(str(comic["image_path"]))
-    hr(printer)
+    # hr(printer)

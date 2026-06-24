@@ -24,17 +24,16 @@ def get_weather(city):
 
 def print_weather(printer, city):
     weather = get_weather(city)
-
-    hr(printer)
-
     print_title(printer, "WEATHER:")
 
     hr(printer)
-
+    printer.set(align="center", bold = False, width = 1, height = 1)
     printer.text(f"{weather['description']}\n\n")
-    printer.text(f"Temp:            {weather['temp']} C\n")
-    printer.text(f"Feels Like:      {weather['feels_like']} C\n")
+
+    printer.set(align="left", bold = False, width = 1, height = 1)
+    printer.text(f"Temperature:     {weather['temp']} °C\n")
+    printer.text(f"Feels Like:      {weather['feels_like']} °C\n")
     printer.text(f"Humidity:        {weather['humidity']}%\n")
     printer.text(f"Rain:            {weather['precip']} mm\n")
 
-    hr(printer)
+    # hr(printer)
