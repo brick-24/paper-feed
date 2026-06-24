@@ -12,5 +12,7 @@ def print_quote(printer):
 
     print_title(printer, "QUOTE:")
     hr(printer)
-    printer.text(f"{quote} \n- {author}\n")
+    printer.text(f"{quote} \n")
+    printer.set(align="center", bold = False, width = 1, height = 1)
+    printer.text(f"- {author}\n")
     hr(printer)
