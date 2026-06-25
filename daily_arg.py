@@ -82,7 +82,6 @@ def main():
 
     
     hr(printer)
-    printer.cut()
 
 
 if __name__ == "__main__":
