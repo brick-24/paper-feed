@@ -47,3 +47,4 @@ TICKERS = {
     # "OIL": "OIL.NS",
 
 }
+

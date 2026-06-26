@@ -33,7 +33,7 @@ def get_weather(city):
         "feels_like": current["FeelsLikeC"],
         "humidity": current["humidity"],
         "chance_of_rain": forecast["chanceofrain"],
-        # "precip": current["precipMM"],
+        "precip": current["precipMM"],
 
         "sunrise": astronomy["sunrise"],
         "sunset": astronomy["sunset"],
@@ -55,9 +55,10 @@ def print_weather(printer, city):
     printer.text(f"Feels Like:      {weather['feels_like']} °C\n")
     printer.text(f"Humidity:        {weather['humidity']}%\n")
     printer.text(f"Chance of Rain:  {weather['chance_of_rain']}%\n")
-    printer.text(f"Rain:            {weather['precip']} mm\n")
+    # printer.text(f"Rain:            {weather['precip']} mm\n")
     printer.text(f"Sunrise:         {weather['sunrise']}\n")
     printer.text(f"Sunset:          {weather['sunset']}\n")
     printer.text(f"Moon:            {weather['moon_phase']}\n") # ({weather['moon_illumination']}%)
 
     # hr(printer)
+    printer.ln()

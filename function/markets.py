@@ -64,3 +64,4 @@ def print_markets(printer):
         )
 
     # hr(printer)
+    printer.ln()
