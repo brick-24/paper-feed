@@ -5,6 +5,7 @@ from function.comic import print_xkcd
 from function.markets import print_markets
 from function.quote import print_quote
 from function.weather import print_weather
+from function.text_inp import print_text_input
 from printer import TerminalPrinter, create_printer, hr
 
 
@@ -42,6 +43,12 @@ def parse_args():
     )
 
     parser.add_argument(
+        "--text",
+        default="Enter Text",
+        help="--text='text to print'",
+    )
+
+    parser.add_argument(
         "--test",
         action="store_true",
         help="Run a simple printer test",
@@ -61,12 +68,16 @@ def main():
         args.xkcd,
         args.weather,
         args.markets,
-        args.quote
+        args.quote,
+        args.text
     ]):
         args.xkcd = True
         args.weather = True
         args.markets = True
         args.quote = True
+
+    if args.text:
+        print_text_input(printer, args.text)
 
     if args.weather:
         print_weather(printer, args.city)
