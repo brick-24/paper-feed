@@ -6,6 +6,7 @@ from function.markets import print_markets
 from function.quote import print_quote
 from function.weather import print_weather
 from function.text_inp import print_text_input
+from function.image_inp import print_image_input
 from printer import TerminalPrinter, create_printer, hr
 
 
@@ -44,9 +45,16 @@ def parse_args():
 
     parser.add_argument(
         "--text",
-        default="Enter Text",
-        help="--text='text to print'",
+        type=str,
+        help="Text to print",
     )
+
+    parser.add_argument(
+        "--image",
+        type=str,
+        help="--text='img path str'",
+    )
+
 
     parser.add_argument(
         "--test",
@@ -69,15 +77,19 @@ def main():
         args.weather,
         args.markets,
         args.quote,
-        args.text
+        args.text,
+        args.image
     ]):
         args.xkcd = True
         args.weather = True
         args.markets = True
         args.quote = True
 
-    if args.text:
+    if args.text is not None:
         print_text_input(printer, args.text)
+
+    if args.image is not None:
+        print_image_input(printer, args.image)
 
     if args.weather:
         print_weather(printer, args.city)
@@ -90,6 +102,7 @@ def main():
 
     if args.markets:
         print_markets(printer)
+
 
     
     hr(printer)
