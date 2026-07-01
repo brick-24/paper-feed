@@ -19,6 +19,9 @@ class TerminalPrinter:
 
     def image(self, image_path):
         print(f"[IMAGE: {image_path}]")
+        
+    def ln(self):
+        print()
 
 
 def print_title(printer, title):
