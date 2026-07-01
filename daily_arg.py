@@ -7,6 +7,7 @@ from function.quote import print_quote
 from function.weather import print_weather
 from function.text_inp import print_text_input
 from function.image_inp import print_image_input
+from function.stock import print_stock
 from printer import TerminalPrinter, create_printer, hr
 
 
@@ -61,6 +62,13 @@ def parse_args():
         action="store_true",
         help="Run a simple printer test",
     )
+    
+    #Parse for Stock.py
+    parser.add_argument(
+        "--stock",
+        type=str,
+        help="Ticker symbol to look up(e.g. --stock AAPL)"
+    )
 
     return parser.parse_args()
 
@@ -78,7 +86,8 @@ def main():
         args.markets,
         args.quote,
         args.text,
-        args.image
+        args.image,
+        args.stock,
     ]):
         args.xkcd = True
         args.weather = True
@@ -102,6 +111,8 @@ def main():
 
     if args.markets:
         print_markets(printer)
+    if args.stock is not None:
+        print_stock(printer, args.stock)
 
 
     
