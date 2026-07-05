@@ -2,3 +2,4 @@ trash
 __pycache__
 img
 venv/
+.venv
