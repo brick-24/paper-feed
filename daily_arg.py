@@ -1,6 +1,7 @@
 import argparse
 
 from config import DEFAULT_PRODUCT_ID, DEFAULT_VENDOR_ID
+from config import DEFAULT_OPTIONS
 from function.comic import print_xkcd
 from function.markets import print_markets
 from function.quote import print_quote
@@ -89,10 +90,9 @@ def main():
         args.image,
         args.stock,
     ]):
-        args.xkcd = True
-        args.weather = True
-        args.markets = True
-        args.quote = True
+
+        for option in DEFAULT_OPTIONS:
+            setattr(args, option, True)
 
     if args.text is not None:
         print_text_input(printer, args.text)
