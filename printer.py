@@ -11,18 +11,34 @@ def create_printer(vendor_id, product_id):
 
 
 class TerminalPrinter:
+    WIDTH = 32
+
+    def __init__(self):
+        self.align = "left"
+
     def set(self, **kwargs):
-        return
+        if "align" in kwargs:
+            self.align = kwargs["align"]
 
     def text(self, text):
-        print(text, end="")
+        for line in text.splitlines(True):  #'\n'
+            if line.endswith("\n"):
+                content = line[:-1]
+                newline = "\n"
+            else:
+                content = line
+                newline = ""
+
+            if self.align == "center":
+                print(f"{content:^{self.WIDTH}}", end=newline)
+            else:
+                print(content, end=newline)
 
     def image(self, image_path):
         print(f"[IMAGE: {image_path}]")
-        
+
     def ln(self):
         print()
-
 
 def print_title(printer, title):
     printer.set(
