@@ -9,6 +9,7 @@ from function.weather import print_weather
 from function.text_inp import print_text_input
 from function.image_inp import print_image_input
 from function.stock import print_stock
+from function.forecast import print_weekly_weather
 from printer import TerminalPrinter, create_printer, hr
 
 
@@ -71,6 +72,12 @@ def parse_args():
         help="Ticker symbol to look up(e.g. --stock AAPL)"
     )
 
+    parser.add_argument(
+        "--forecast",
+        action="store_true",
+        help="weather forecast"
+    )
+
     return parser.parse_args()
 
 
@@ -89,6 +96,7 @@ def main():
         args.text,
         args.image,
         args.stock,
+        args.forecast
     ]):
 
         for option in DEFAULT_OPTIONS:
@@ -103,6 +111,9 @@ def main():
     if args.weather:
         print_weather(printer, args.city)
 
+    if args.forecast:
+        print_weekly_weather(printer, args.city)
+
     if args.xkcd:
         print_xkcd(printer)
 
@@ -111,6 +122,7 @@ def main():
 
     if args.markets:
         print_markets(printer)
+
     if args.stock is not None:
         print_stock(printer, args.stock)
 
