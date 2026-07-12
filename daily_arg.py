@@ -4,6 +4,7 @@ from config import DEFAULT_PRODUCT_ID, DEFAULT_VENDOR_ID
 from config import DEFAULT_OPTIONS
 from function.comic import print_xkcd
 from function.markets import print_markets
+from function.news import print_news
 from function.quote import print_quote
 from function.weather import print_weather
 from function.text_inp import print_text_input
@@ -78,6 +79,12 @@ def parse_args():
         help="weather forecast"
     )
 
+    parser.add_argument(
+        "--news",
+        action="store_true",
+        help="Print RSS news headlines"
+    )
+
     return parser.parse_args()
 
 
@@ -96,7 +103,8 @@ def main():
         args.text,
         args.image,
         args.stock,
-        args.forecast
+        args.forecast,
+        args.news
     ]):
 
         for option in DEFAULT_OPTIONS:
@@ -122,6 +130,9 @@ def main():
 
     if args.markets:
         print_markets(printer)
+
+    if args.news:
+        print_news(printer)
 
     if args.stock is not None:
         print_stock(printer, args.stock)
