@@ -1,4 +1,5 @@
 import argparse
+from collections import OrderedDict
 
 from config import DEFAULT_PRODUCT_ID, DEFAULT_VENDOR_ID
 from config import DEFAULT_OPTIONS
@@ -13,25 +14,45 @@ from function.forecast import print_weekly_weather
 from printer import TerminalPrinter, create_printer, hr
 
 
+# Map CLI option name -> (handler_fn, arg_getter, is_flag)
+# arg_getter(args) returns the argument value to pass to handler
+# is_flag=True means it's a store_true flag (check args.<opt> for truthiness)
+OPTION_HANDLERS = OrderedDict([
+    ("text", (print_text_input, lambda a: a.text, False)),
+    ("image", (print_image_input, lambda a: a.image, False)),
+    ("weather", (print_weather, lambda a: a.city, True)),
+    ("forecast", (print_weekly_weather, lambda a: a.city, True)),
+    ("xkcd", (print_xkcd, lambda a: None, True)),
+    ("quote", (print_quote, lambda a: None, True)),
+    ("markets", (print_markets, lambda a: None, True)),
+    ("stock", (print_stock, lambda a: a.stock, False)),
+])
+
+# Default execution order: DEFAULT_OPTIONS first, then remaining handlers
+DEFAULT_ORDER = list(DEFAULT_OPTIONS) + [
+    opt for opt in OPTION_HANDLERS if opt not in DEFAULT_OPTIONS
+]
+
+
 def parse_args():
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
         "--quote",
         action="store_true",
-        help="what do u think?"
+        help="Print a random quote",
     )
 
     parser.add_argument(
         "--xkcd",
         action="store_true",
-        help="Print latest XKCD",
+        help="Print latest XKCD comic",
     )
 
     parser.add_argument(
         "--weather",
         action="store_true",
-        help="Print weather",
+        help="Print current weather",
     )
 
     parser.add_argument(
@@ -43,42 +64,55 @@ def parse_args():
     parser.add_argument(
         "--city",
         default="Delhi",
-        help="Weather city",
+        help="City for weather/forecast (default: Delhi)",
     )
 
     parser.add_argument(
         "--text",
         type=str,
-        help="Text to print",
+        help="Custom text to print",
     )
 
     parser.add_argument(
         "--image",
         type=str,
-        help="--text='img path str'",
+        help="Image file path to print",
     )
-
 
     parser.add_argument(
         "--test",
         action="store_true",
-        help="Run a simple printer test",
+        help="Run in test mode (terminal output only)",
     )
-    
-    #Parse for Stock.py
+
     parser.add_argument(
         "--stock",
         type=str,
-        help="Ticker symbol to look up(e.g. --stock AAPL)"
+        help="Ticker symbol to look up (e.g. --stock AAPL)",
     )
 
     parser.add_argument(
         "--forecast",
         action="store_true",
-        help="weather forecast"
+        help="Print 7-day weather forecast",
     )
 
     return parser.parse_args()
+
+
+def _is_option_enabled(args, opt):
+    """Check if an option is explicitly enabled by user."""
+    handler, arg_getter, is_flag = OPTION_HANDLERS[opt]
+    if is_flag:
+        return getattr(args, opt) is True
+    # For value arguments, enabled if value is provided (not None/empty)
+    val = arg_getter(args)
+    return val is not None and val != ""
+
+
+def _get_active_options(args):
+    """Return list of enabled option names in DEFAULT_ORDER."""
+    return [opt for opt in DEFAULT_ORDER if _is_option_enabled(args, opt)]
 
 
 def main():
@@ -88,46 +122,21 @@ def main():
         DEFAULT_VENDOR_ID, DEFAULT_PRODUCT_ID
     )
 
-    if not any([
-        args.xkcd,
-        args.weather,
-        args.markets,
-        args.quote,
-        args.text,
-        args.image,
-        args.stock,
-        args.forecast
-    ]):
+    # If no explicit flags, enable DEFAULT_OPTIONS
+    if not _get_active_options(args):
+        for opt in DEFAULT_OPTIONS:
+            setattr(args, opt, True)
 
-        for option in DEFAULT_OPTIONS:
-            setattr(args, option, True)
+    # Execute handlers in configured order
+    for opt in _get_active_options(args):
+        handler, arg_getter, is_flag = OPTION_HANDLERS[opt]
+        if is_flag:
+            handler(printer)
+        else:
+            arg_val = arg_getter(args)
+            if arg_val:
+                handler(printer, arg_val)
 
-    if args.text is not None:
-        print_text_input(printer, args.text)
-
-    if args.image is not None:
-        print_image_input(printer, args.image)
-
-    if args.weather:
-        print_weather(printer, args.city)
-
-    if args.forecast:
-        print_weekly_weather(printer, args.city)
-
-    if args.xkcd:
-        print_xkcd(printer)
-
-    if args.quote:
-        print_quote(printer)
-
-    if args.markets:
-        print_markets(printer)
-
-    if args.stock is not None:
-        print_stock(printer, args.stock)
-
-
-    
     hr(printer)
 
 
