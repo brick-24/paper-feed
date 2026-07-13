@@ -21,6 +21,11 @@ Paper-feed has useful modules such as the weather, market metrics, quotes, XKCD 
 - Print local images
 - Terminal test mode (no printer required)
 
+## Requirements
+
+- Python 3.13+
+- USB ESC/POS thermal printer (or use `--test` mode for terminal output)
+
 ## Installation
 
 Clone the repository:
