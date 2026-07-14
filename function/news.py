@@ -2,7 +2,7 @@ import feedparser
 import textwrap
 from printer import hr, print_title
 
-# https://www.thehindu.com/news/national/feeder/default.rss
+# https://github.com/plenaryapp/awesome-rss-feeds
 DEFAULT_RSS_URL = "https://www.thehindu.com/news/national/feeder/default.rss"
 
 
