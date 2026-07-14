@@ -122,6 +122,12 @@ python daily_arg.py --text "Hello, World!"
 python daily_arg.py --image path/to/image.png
 ```
 
+### Print a QR Code
+
+```python
+python daily_arg.py --qrcode "https://example.com"
+```
+
 ### Test Without a Printer
 
 Print everything to the terminal instead of a USB printer:
@@ -134,12 +140,10 @@ This is useful for development and debugging
 
 ## Future Ideas
 
-- RSS news headlines
 - Calendar integration
 - Todo list printing
 - GitHub notifications
 - Daily schedule
-- QR codes
 - Custom templates
 - Automatic scheduled printing
 

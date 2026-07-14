@@ -5,6 +5,7 @@ from config import DEFAULT_OPTIONS
 from function.comic import print_xkcd
 from function.markets import print_markets
 from function.news import print_news
+from function.qrcode_inp import print_qr_code
 from function.quote import print_quote
 from function.weather import print_weather
 from function.text_inp import print_text_input
@@ -85,6 +86,12 @@ def parse_args():
         help="Print RSS news headlines"
     )
 
+    parser.add_argument(
+        "--qrcode",
+        type=str,
+        help="Print QR code with the given data (e.g., --qrcode 'https://example.com')"
+    )
+
     return parser.parse_args()
 
 
@@ -104,7 +111,8 @@ def main():
         args.image,
         args.stock,
         args.forecast,
-        args.news
+        args.news,
+        args.qrcode
     ]):
 
         for option in DEFAULT_OPTIONS:
@@ -133,6 +141,9 @@ def main():
 
     if args.news:
         print_news(printer)
+
+    if args.qrcode:
+        print_qr_code(printer, args.qrcode)
 
     if args.stock is not None:
         print_stock(printer, args.stock)
