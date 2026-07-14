@@ -1,0 +1,7 @@
+# Dependency Review Configuration
+# Fail PR if new vulnerabilities are introduced
+fail-on-severity: high
+
+# Allow these vulnerabilities (with justification)
+allow-ghsas:
+  - GHSA-xxxx-xxxx-xxxx  # Example: add real GHSAs here with comments explaining why
