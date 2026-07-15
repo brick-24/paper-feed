@@ -1,52 +1,66 @@
-DEFAULT_VENDOR_ID = 0x0483
-DEFAULT_PRODUCT_ID = 0x5840
+"""Central configuration with environment variable overrides."""
 
-DEFAULT_OPTIONS = ["weather", "markets", "quote",]
+from __future__ import annotations
 
+import os
+
+
+def _env_int(name: str, default: int) -> int:
+    """Parse environment variable as int with fallback."""
+    val = os.environ.get(name)
+    if val is None:
+        return default
+    try:
+        return int(val, 0)  # base=0 handles 0x prefix
+    except ValueError:
+        return default
+
+
+def _env_str(name: str, default: str) -> str:
+    """Get environment variable with fallback."""
+    return os.environ.get(name, default)
+
+
+def _env_bool(name: str, default: bool = False) -> bool:
+    """Parse environment variable as boolean."""
+    val = os.environ.get(name)
+    if val is None:
+        return default
+    return val.lower() in ("1", "true", "yes", "on")
+
+
+# Printer USB IDs
+DEFAULT_VENDOR_ID = _env_int("PAPER_FEED_VENDOR_ID", 0x0483)
+DEFAULT_PRODUCT_ID = _env_int("PAPER_FEED_PRODUCT_ID", 0x5840)
+
+# Default feed modules
+DEFAULT_OPTIONS = ["weather", "markets", "quote"]
+
+# Market tickers for --markets (name -> yfinance symbol)
 TICKERS = {
     "NIFTY": "^NSEI",
-    "SENSX": "^BSESN",
+    "SENSEX": "^BSESN",
     "BANK": "^NSEBANK",
     "N50": "NIFTYBEES.NS",
-    "BANK": "BANKBEES.NS",
+    "BANKB": "BANKBEES.NS",
     "IT": "ITBEES.NS",
-    "PHAR": "PHARMABEES.NS",
+    "PHARM": "PHARMABEES.NS",
     "AUTO": "AUTOBEES.NS",
     "CPSE": "CPSEETF.NS",
     "PSUB": "PSUBNKBEES.NS",
-    "INFR": "INFRABEES.NS",
+    "INFRA": "INFRABEES.NS",
     "GOLD": "GOLDBEES.NS",
     "HANG": "HNGSNGBEES.NS",
-
-    # "ITC": "ITC.NS",
-    # "JUB": "JUBLFOOD.NS",
-    # "JKP": "JKPAPER.NS",
-    # "JAI": "JISLJALEQS.NS",
-    # "HNG": "HNGSNGBEES.NS",
-
-    # "N50": "NIFTYBEES.NS",
-    # "PVR": "PVRINOX.NS",
-    # "APLH": "APOLLOHOSP.NS",
-    # "APLT": "APOLLOTYRE.NS",
-    # "BATA": "BATAINDIA.NS",
-    # "RIL": "RELIANCE.NS",
-    # "RAY": "RAYMOND.NS",
-    # "ITCH": "ITCHOTELS.NS",
-    # "NEST": "NESTLEIND.NS",
-    # "PAY": "PAYTM.NS",
-    # "FORT": "FORTIS.NS",
-    # "PFZ": "PFIZER.NS",
-    # "CIP": "CIPLA.NS",
-    # "IRCT": "IRCTC.NS",
-    # "TCS": "TCS.NS",
-    # "INFY": "INFY.NS",
-    # "TSTL": "TATASTEEL.NS",
-    # "GOLD": "GOLDBEES.NS",
-    # "IOC": "IOC.NS",
-    # "MAX": "MAXHEALTH.NS",
-    # "JIOFN": "JIOFIN.NS",
-    # "MOTR": "TMCV.NS",
-    # "OIL": "OIL.NS",
-
 }
 
+# RSS feed for news (can be overridden via PAPER_FEED_RSS_URL)
+DEFAULT_RSS_URL = _env_str(
+    "PAPER_FEED_RSS_URL",
+    "https://www.thehindu.com/news/national/feeder/default.rss"
+)
+
+# Default weather city (can be overridden via PAPER_FEED_CITY)
+DEFAULT_CITY = _env_str("PAPER_FEED_CITY", "Delhi")
+
+# Enable debug logging (PAPER_FEED_DEBUG=1)
+DEBUG = _env_bool("PAPER_FEED_DEBUG", False)

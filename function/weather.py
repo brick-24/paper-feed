@@ -1,17 +1,15 @@
 import requests
 from datetime import datetime
 from printer import hr, print_title
+from function.http_client import get_json
 
 
 def get_weather(city):
-    r = requests.get(
+    data = get_json(
         f"https://wttr.in/{city}",
         params={"format": "j1"},
-        timeout=10,
+        timeout=(5, 10),
     )
-    r.raise_for_status()
-
-    data = r.json()
 
     current = data["current_condition"][0]
     today = data["weather"][0]
@@ -26,7 +24,6 @@ def get_weather(city):
         key=lambda h: abs(int(h["time"]) - target)
     )
 
-
     return {
         "description": current["weatherDesc"][0]["value"],
         "temp": current["temp_C"],
@@ -34,7 +31,6 @@ def get_weather(city):
         "humidity": current["humidity"],
         "chance_of_rain": forecast["chanceofrain"],
         "precip": current["precipMM"],
-
         "sunrise": astronomy["sunrise"],
         "sunset": astronomy["sunset"],
         "moonrise": astronomy["moonrise"],
@@ -42,6 +38,8 @@ def get_weather(city):
         "moon_phase": astronomy["moon_phase"],
         "moon_illumination": astronomy["moon_illumination"],
     }
+
+
 def print_weather(printer, city):
     weather = get_weather(city)
     print_title(printer, "WEATHER:")
