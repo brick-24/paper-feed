@@ -17,7 +17,9 @@ def get_weather(city):
     hourly = today["hourly"]
 
     now = datetime.now()
-    target = (now.hour // 3) * 300
+    # Use actual hour*100 (e.g., 14:00 -> 1400) to find nearest 3-hour slot
+    # Old code used (hour // 3) * 300 which floored to previous boundary
+    target = now.hour * 100
 
     forecast = min(
         hourly,
