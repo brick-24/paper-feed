@@ -11,6 +11,7 @@ from function.text_inp import print_text_input
 from function.image_inp import print_image_input
 from function.stock import print_stock
 from function.forecast import print_weekly_weather
+from function.qrcode import print_qr_code
 from printer import TerminalPrinter, create_printer, hr
 
 
@@ -85,6 +86,12 @@ def parse_args():
         help="Print RSS news headlines"
     )
 
+    parser.add_argument(
+        "--qrcode",
+        type=str,
+        help="Print QR code for the given text/URL"
+    )
+
     return parser.parse_args()
 
 
@@ -104,7 +111,8 @@ def main():
         args.image,
         args.stock,
         args.forecast,
-        args.news
+        args.news,
+        args.qrcode
     ]):
 
         for option in DEFAULT_OPTIONS:
@@ -133,6 +141,9 @@ def main():
 
     if args.news:
         print_news(printer)
+
+    if args.qrcode:
+        print_qr_code(printer, args.qrcode)
 
     if args.stock is not None:
         print_stock(printer, args.stock)
