@@ -116,29 +116,24 @@ def main():
     if args.image is not None:
         print_image_input(printer, args.image)
 
-    if args.weather:
-        print_weather(printer, args.city)
-
-    if args.forecast:
-        print_weekly_weather(printer, args.city)
-
-    if args.xkcd:
-        print_xkcd(printer)
-
-    if args.quote:
-        print_quote(printer)
-
-    if args.markets:
-        print_markets(printer)
-
-    if args.news:
-        print_news(printer)
-
     if args.stock is not None:
         print_stock(printer, args.stock)
 
+    # map the options:function call
+    actions = {
+        "weather": lambda: print_weather(printer, args.city),
+        "forecast": lambda: print_weekly_weather(printer, args.city),
+        "xkcd": lambda: print_xkcd(printer),
+        "quote": lambda: print_quote(printer),
+        "markets": lambda: print_markets(printer),
+        "news": lambda: print_news(printer),
+    }
 
-    
+    for option in DEFAULT_OPTIONS:
+        if getattr(args, option):
+            # call the function based on the order of the options
+            actions[option]()
+
     hr(printer)
 
 
