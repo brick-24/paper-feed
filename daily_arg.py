@@ -95,6 +95,16 @@ def main():
         DEFAULT_VENDOR_ID, DEFAULT_PRODUCT_ID
     )
 
+    actions = {
+        "weather": lambda: print_weather(printer, args.city),
+        "forecast": lambda: print_weekly_weather(printer, args.city),
+        "xkcd": lambda: print_xkcd(printer),
+        "quote": lambda: print_quote(printer),
+        "markets": lambda: print_markets(printer),
+        "news": lambda: print_news(printer),
+    }
+
+    # defaults
     if not any([
         args.xkcd,
         args.weather,
@@ -106,7 +116,6 @@ def main():
         args.forecast,
         args.news
     ]):
-
         for option in DEFAULT_OPTIONS:
             setattr(args, option, True)
 
@@ -119,23 +128,12 @@ def main():
     if args.stock is not None:
         print_stock(printer, args.stock)
 
-    # map the options:function call
-    actions = {
-        "weather": lambda: print_weather(printer, args.city),
-        "forecast": lambda: print_weekly_weather(printer, args.city),
-        "xkcd": lambda: print_xkcd(printer),
-        "quote": lambda: print_quote(printer),
-        "markets": lambda: print_markets(printer),
-        "news": lambda: print_news(printer),
-    }
-
-    for option in DEFAULT_OPTIONS:
+    # run enabled
+    for option, action in actions.items():
         if getattr(args, option):
-            # call the function based on the order of the options
-            actions[option]()
+            action()
 
     hr(printer)
-
 
 if __name__ == "__main__":
     main()
