@@ -11,8 +11,9 @@ from function.text_inp import print_text_input
 from function.image_inp import print_image_input
 from function.stock import print_stock
 from function.forecast import print_weekly_weather
-from printer import TerminalPrinter, create_printer, hr
+from function.daydate import print_daydate
 
+from printer import TerminalPrinter, create_printer, hr, print_title
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -85,6 +86,12 @@ def parse_args():
         help="Print RSS news headlines"
     )
 
+    parser.add_argument(
+        "--daydate",
+        action="store_true",
+        help="Print day date"
+    )
+
     return parser.parse_args()
 
 
@@ -104,7 +111,8 @@ def main():
         args.image,
         args.stock,
         args.forecast,
-        args.news
+        args.news,
+        args.daydate
     ]):
 
         for option in DEFAULT_OPTIONS:
@@ -127,12 +135,12 @@ def main():
         "quote": lambda: print_quote(printer),
         "markets": lambda: print_markets(printer),
         "news": lambda: print_news(printer),
+        "daydate": lambda: print_daydate(printer)
     }
 
-    for option in DEFAULT_OPTIONS:
+    for option, action in actions.items():
         if getattr(args, option):
-            # call the function based on the order of the options
-            actions[option]()
+            action()
 
     hr(printer)
 

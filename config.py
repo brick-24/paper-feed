@@ -1,7 +1,7 @@
 DEFAULT_VENDOR_ID = 0x0483
 DEFAULT_PRODUCT_ID = 0x5840
 
-DEFAULT_OPTIONS = ["weather", "markets", "quote",]
+DEFAULT_OPTIONS = ["daydate", "weather", "markets", "quote", "forecast"]
 
 TICKERS = {
     "NIFTY": "^NSEI",
