@@ -5,3 +5,5 @@ def print_daydate(printer):
     now = datetime.now()
     printstr = now.strftime("%A, %d/%m/%Y")
     print_title(printer, printstr)
+    hr(printer)
+    printer.ln()

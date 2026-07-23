@@ -101,20 +101,19 @@ def main():
     printer = TerminalPrinter() if args.test else create_printer(
         DEFAULT_VENDOR_ID, DEFAULT_PRODUCT_ID
     )
-
-    if not any([
+    
+    has_action_args = any([
         args.xkcd,
         args.weather,
         args.markets,
         args.quote,
-        args.text,
-        args.image,
-        args.stock,
         args.forecast,
         args.news,
-        args.daydate
-    ]):
+        args.daydate,
+    ])
 
+    if not has_action_args and args.text is None and args.image is None and args.stock is None:
+        #run defaults
         for option in DEFAULT_OPTIONS:
             setattr(args, option, True)
 
@@ -135,15 +134,20 @@ def main():
         "quote": lambda: print_quote(printer),
         "markets": lambda: print_markets(printer),
         "news": lambda: print_news(printer),
-        "daydate": lambda: print_daydate(printer)
+        "daydate": lambda: print_daydate(printer),
     }
 
-    for option, action in actions.items():
+    #run DEFAULT_OPTIONS order
+    for option in DEFAULT_OPTIONS:
         if getattr(args, option):
-            action()
+            actions[option]()
+
+    #run other
+    for option in actions:
+        if option not in DEFAULT_OPTIONS and getattr(args, option):
+            actions[option]()
 
     hr(printer)
-
 
 if __name__ == "__main__":
     main()
