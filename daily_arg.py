@@ -101,7 +101,7 @@ def main():
     printer = TerminalPrinter() if args.test else create_printer(
         DEFAULT_VENDOR_ID, DEFAULT_PRODUCT_ID
     )
-    
+
     has_action_args = any([
         args.xkcd,
         args.weather,
@@ -148,6 +148,7 @@ def main():
             actions[option]()
 
     hr(printer)
+    printer.text("\n\n")
 
 if __name__ == "__main__":
     main()
