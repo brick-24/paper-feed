@@ -11,8 +11,9 @@ from function.text_inp import print_text_input
 from function.image_inp import print_image_input
 from function.stock import print_stock
 from function.forecast import print_weekly_weather
-from printer import TerminalPrinter, create_printer, hr
+from function.daydate import print_daydate
 
+from printer import TerminalPrinter, create_printer, hr, print_title
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -85,6 +86,12 @@ def parse_args():
         help="Print RSS news headlines"
     )
 
+    parser.add_argument(
+        "--daydate",
+        action="store_true",
+        help="Print day date"
+    )
+
     return parser.parse_args()
 
 
@@ -95,18 +102,18 @@ def main():
         DEFAULT_VENDOR_ID, DEFAULT_PRODUCT_ID
     )
 
-    if not any([
+    has_action_args = any([
         args.xkcd,
         args.weather,
         args.markets,
         args.quote,
-        args.text,
-        args.image,
-        args.stock,
         args.forecast,
-        args.news
-    ]):
+        args.news,
+        args.daydate,
+    ])
 
+    if not has_action_args and args.text is None and args.image is None and args.stock is None:
+        #run defaults
         for option in DEFAULT_OPTIONS:
             setattr(args, option, True)
 
@@ -127,15 +134,21 @@ def main():
         "quote": lambda: print_quote(printer),
         "markets": lambda: print_markets(printer),
         "news": lambda: print_news(printer),
+        "daydate": lambda: print_daydate(printer),
     }
 
+    #run DEFAULT_OPTIONS order
     for option in DEFAULT_OPTIONS:
         if getattr(args, option):
-            # call the function based on the order of the options
+            actions[option]()
+
+    #run other
+    for option in actions:
+        if option not in DEFAULT_OPTIONS and getattr(args, option):
             actions[option]()
 
     hr(printer)
-
+    printer.text("\n\n")
 
 if __name__ == "__main__":
     main()
