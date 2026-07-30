@@ -44,7 +44,7 @@ def parse_args():
 
     parser.add_argument(
         "--city",
-        default="Delhi",
+        default="Jaipur",
         help="Weather city",
     )
 

@@ -50,7 +50,7 @@ These values must match your printer.
 
 Run with no arguments to print the default feed:
 
-python daily_arg.py
+python main.py
 
 By default, this prints:
 
@@ -61,31 +61,31 @@ By default, this prints:
 ### Print Weather
 
 ```python
-python daily_arg.py --weather
+python main.py --weather
 ```
 
 Specify a city:
 
 ```python
-python daily_arg.py --weather --city Delhi
+python main.py --weather --city Delhi
 ```
 
 ### Print Market Summary
 
 ```python
-python daily_arg.py --markets
+python main.py --markets
 ```
 
 ### Print Stock Information
 
 ```python
-python daily_arg.py --stock AAPL
+python main.py --stock AAPL
 ```
 
 or
 
 ```python
-python daily_arg.py --stock RELIANCE.NS
+python main.py --stock RELIANCE.NS
 ```
 
 Displays:
@@ -101,25 +101,25 @@ Displays:
 ### Print a Quote
 
 ```python
-python daily_arg.py --quote
+python main.py --quote
 ```
 
 ### Print the Latest XKCD
 
 ```python
-python daily_arg.py --xkcd
+python main.py --xkcd
 ```
 
 ### Print Custom Text
 
 ```python
-python daily_arg.py --text "Hello, World!"
+python main.py --text "Hello, World!"
 ```
 
 ### Print an Image
 
 ```python
-python daily_arg.py --image path/to/image.png
+python main.py --image path/to/image.png
 ```
 
 ### Test Without a Printer
@@ -127,7 +127,7 @@ python daily_arg.py --image path/to/image.png
 Print everything to the terminal instead of a USB printer:
 
 ```python
-python daily_arg.py --test
+python main.py --test
 ```
 
 This is useful for development and debugging
