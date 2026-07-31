@@ -6,3 +6,6 @@ dev = usb.core.find(
 )
 
 print(dev)
+dev.reset()
+print("RESET", "*"*30)
+print(dev)
