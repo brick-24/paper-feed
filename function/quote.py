@@ -4,10 +4,10 @@ from printer import hr, print_title
 
 
 def print_quote(printer):
-    r = requests.get("http://api.quotable.io/random", timeout=10)
+    r = requests.get("https://dummyjson.com/quotes/random", timeout=10)
 
     data = r.json()
-    quote = data["content"]
+    quote = data["quote"]
     author = data["author"]
 
     print_title(printer, "QUOTE:")
