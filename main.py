@@ -12,6 +12,7 @@ from function.image_inp import print_image_input
 from function.stock import print_stock
 from function.forecast import print_weekly_weather
 from function.daydate import print_daydate
+from function.draw_graph import print_stock_performance
 
 from printer import TerminalPrinter, create_printer, hr, print_title
 
@@ -92,6 +93,12 @@ def parse_args():
         help="Print day date"
     )
 
+    parser.add_argument(
+        "--drawgraph",
+        type=str,
+        help="Graph stock performance (e.g. --drawgraph AAPL)",
+    )
+
     return parser.parse_args()
 
 
@@ -110,9 +117,10 @@ def main():
         args.forecast,
         args.news,
         args.daydate,
+        bool(args.drawgraph),
     ])
 
-    if not has_action_args and args.text is None and args.image is None and args.stock is None:
+    if not has_action_args and args.text is None and args.image is None and args.stock is None and args.drawgraph is None:
         #run defaults
         for option in DEFAULT_OPTIONS:
             setattr(args, option, True)
@@ -125,6 +133,9 @@ def main():
 
     if args.stock is not None:
         print_stock(printer, args.stock)
+
+    if args.drawgraph:
+        print_stock_performance(printer, args.drawgraph)
 
     # map the options:function call
     actions = {
